@@ -21,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -109,7 +110,16 @@ public class Updater {
 		URLConnection connection = null;
 		InputStream is = null;
 		FileOutputStream destinationFile = null;
-	 
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		try {
+	          UIManager.setLookAndFeel(new SubstanceGraphiteLookAndFeel());
+	        } catch (Exception e) {
+	          System.out.println("Substance Graphite failed to initialize");
+	        }
+		UIManager.put(SubstanceLookAndFeel.WINDOW_ROUNDED_CORNERS, Boolean.FALSE);
+		Image img = new ImageIcon(this.getClass().getResource("/gsm/images/logo32.png")).getImage();
+		JFrame jf = new JFrame("Downloading");
+
 		try { 
 			//On crée l'URL
 	        URL url = new URL(filePath);
@@ -119,7 +129,14 @@ public class Updater {
 	 
 			//On récupère la taille du fichier
 			int length = connection.getContentLength();
-	 
+			JProgressBar progressBar = new JProgressBar(0, length);
+			progressBar.setValue(0);
+			progressBar.setStringPainted(true);
+			jf.add(progressBar);
+			jf.setSize(200, 70);
+			jf.setLocationRelativeTo(null);
+			jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			jf.setVisible(true);
 			//Si le fichier est inexistant, on lance une exception
 			if(length == -1){
 				throw new IOException("Fichier vide");
@@ -140,6 +157,7 @@ public class Updater {
 				currentBit = is.read(data, deplacement, data.length-deplacement);	
 				if(currentBit == -1)break;	
 				deplacement += currentBit;
+				progressBar.setValue(deplacement);
 			}
 	 
 			//Si on n'est pas arrivé à la fin du fichier, on lance une exception
@@ -156,7 +174,7 @@ public class Updater {
 	 
 			//On vide le tampon et on ferme le stream
 			destinationFile.flush();
-	 
+			jf.dispose();
 	      } catch (MalformedURLException e) { 
 	    	  System.err.println("Problème avec l'URL : " + filePath); 
 	      } catch (IOException e) { 
