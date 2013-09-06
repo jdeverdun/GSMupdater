@@ -109,7 +109,7 @@ public class Updater {
 		UIManager.put(SubstanceLookAndFeel.WINDOW_ROUNDED_CORNERS, Boolean.FALSE);
 		Image img = new ImageIcon(this.getClass().getResource("/gsm/images/logo32.png")).getImage();
 		JFrame jf = new JFrame("Downloading");
-
+		jf.setIconImage(img);
 		try { 
 			//On crée l'URL
 	        URL url = new URL(filePath);
