@@ -35,19 +35,9 @@ import org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel;
 
 
 public class Updater {
-
-	//Variables contenant les noms des fichiers à charger
-	private static final String pathCurrent = File.separator + "Actual.jar";
-	private static final String pathNew = File.separator + "New.jar";
-	private static final String pathOld = File.separator + "Old.jar";
  
 	//Variable contenant le nom du répértoire courant
 	private static final String currentFolder = System.getProperty("user.dir");
-
-	private String lanceurPath = "Chemin vers lanceur";
-
-	//Version actuelle
-	private String version = "XXX";
 
 	//Chemin vers le fichier XML 
 	private String xmlPath = "http://120.40.30.110:8888/XellSior/update.xml";
@@ -189,31 +179,6 @@ public class Updater {
 	      }
 	}
 
-	public void update(){
-		ArrayList<String> versions = getVersions();
-
-		//Si la version est nulle
-		if(versions.size() == 0){
-			JOptionPane.showMessageDialog(null,"Impossible de se connecter au service, vérifiez votre " +
-					"connection internet");
-		}else{
-			//Si la dernière version n'est pas la même que l'actuelle
-			if(!versions.get(versions.size() - 1).equals(version)){
-
-				String versionChoisie = (String)JOptionPane.showInputDialog(null,"Choississez la version à " + 
-						"installer", "Versions disponibles",JOptionPane.QUESTION_MESSAGE,
-						null,versions.toArray(),versions.get(versions.size() - 1));
-
-				//S'il veut la télécharger
-				if(versionChoisie != ""){					
-					update(versionChoisie,null);
-				}
-			}
-			else{
-				JOptionPane.showMessageDialog(null,"Pas de nouvelles version disponible pour le moment");
-			}
-		}
-	}
 
 	/**
 	 * Met a jours panther.jar avec la version demandee et relance le fichier jar present au meme emplacement que l'updater
