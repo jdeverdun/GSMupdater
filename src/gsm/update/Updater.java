@@ -40,7 +40,7 @@ public class Updater {
 	private static final String currentFolder = System.getProperty("user.dir");
 
 	//Chemin vers le fichier XML 
-	private String xmlPath = "http://120.40.30.110:8888/XellSior/update.xml";
+	private String xmlPath = "http://192.168.55.10:8888/XellSior/update.xml";
 	 
 	//Document xml
 	private Document xmlDocument = null;
